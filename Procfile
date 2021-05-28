@@ -1,3 +1,3 @@
-web: gunicorn myproject.wsgi
-heroku ps:scale web=1
-heroku config:set DISABLE_COLLECTSTATIC=1
+web: gunicorn myproject.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
