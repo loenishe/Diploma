@@ -1,0 +1,17 @@
+$(document).ready(function(){
+    $(document).on('click', '.menu-btn', function(e){
+        e.preventDefault();
+        $('.menu-block').addClass('is-open');
+    });
+
+    $(document).on('click', '.menu-close', function(e){
+        e.preventDefault();
+        $('.menu-block').removeClass('is-open');
+    });
+
+    $(document).on('click', '.sub-menu-btn', function(e){
+        e.preventDefault();
+        $(this).toggleClass('is-open');
+        $(this).siblings('.sub-menu').toggleClass('is-open');
+    });
+});

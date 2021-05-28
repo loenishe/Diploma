@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, View
 
-from .models import Notebook, Smartphone, Category, LatestProducts, Customer, Cart, CartProduct
+from .models import Shoes, TShirts, Hoodie, Category, LatestProducts, Customer, Cart, CartProduct
 from .mixins import CategoryDetailMixin, CartMixin
 from .forms import OrderForm
 from .utils import recalc_cart
@@ -16,7 +16,7 @@ class BaseView(CartMixin, View):
     def get(self, request, *args, **kwargs):
         categories = Category.objects.get_categories_for_left_sidebar()
         products = LatestProducts.objects.get_products_for_main_page(
-            'notebook', 'smartphone', with_respect_to='notebook'
+            'shoes', 'tshirts', 'hoodie', with_respect_to='shoes'
         )
         context = {
             'categories': categories,
@@ -29,8 +29,9 @@ class BaseView(CartMixin, View):
 class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
     CT_MODEL_MODEL_CLASS = {
-        'notebook': Notebook,
-        'smartphone': Smartphone
+        'shoes': Shoes,
+        'hoodie': Hoodie,
+        'tshirts': TShirts
     }
 
     def dispatch(self, request, *args, **kwargs):

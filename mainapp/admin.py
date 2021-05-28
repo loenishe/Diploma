@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import *
 
 
-class SmartphoneAdminForm(ModelForm):
+class HoodieAdminForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,28 +20,37 @@ class SmartphoneAdminForm(ModelForm):
         return self.cleaned_data
 
 
-class NotebookAdmin(admin.ModelAdmin):
+class TshirtsAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
-            return ModelChoiceField(Category.objects.filter(slug='notebooks'))
+            return ModelChoiceField(Category.objects.filter(slug='tshirts'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class SmartphoneAdmin(admin.ModelAdmin):
+class HoodieAdmin(admin.ModelAdmin):
 
     change_form_template = 'admin.html'
-    form = SmartphoneAdminForm
+    form = HoodieAdminForm
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
-            return ModelChoiceField(Category.objects.filter(slug='smartphones'))
+            return ModelChoiceField(Category.objects.filter(slug='hoodie'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class ShoesAdmin(admin.ModelAdmin):
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return ModelChoiceField(Category.objects.filter(slug='shoes'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 admin.site.register(Category)
-admin.site.register(Notebook, NotebookAdmin)
-admin.site.register(Smartphone, SmartphoneAdmin)
+admin.site.register(Shoes, ShoesAdmin)
+admin.site.register(Hoodie, HoodieAdmin)
+admin.site.register(TShirts, TshirtsAdmin)
 admin.site.register(CartProduct)
 admin.site.register(Cart)
 admin.site.register(Customer)

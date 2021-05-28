@@ -45,15 +45,16 @@ class LatestProducts:
 class CategoryManager(models.Manager):
 
     CATEGORY_NAME_COUNT_NAME = {
-        'Ноутбуки': 'notebook__count',
-        'Смартфоны': 'smartphone__count'
+        'Кроссовки': 'shoes__count',
+        'Футболки': 'tshirts__count',
+        'Худи': 'hoodie__count'
     }
 
     def get_queryset(self):
         return super().get_queryset()
 
     def get_categories_for_left_sidebar(self):
-        models = get_models_for_count('notebook', 'smartphone')
+        models = get_models_for_count('shoes', 'hoodie', 'tshirts')
         qs = list(self.get_queryset().annotate(*models))
         data = [
             dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
@@ -130,7 +131,42 @@ class Smartphone(Product):
     def get_absolute_url(self):
         return get_product_url(self, 'product_detail')
 
+class Shoes(Product):
+    size = models.CharField(max_length=255, verbose_name="Размер кроссовок")
+    brand_name = models.CharField(max_length=255, verbose_name="Брендовое имя кроссовок")
+    sex = models.CharField(max_length=255, verbose_name="Пол")
+    season = models.CharField(max_length=255, verbose_name="Кроссовок для Сезона")
 
+    def __str__(self):
+        return"{} : {}".format(self.category.name, self.title)
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+
+class TShirts(Product):
+    size = models.CharField(max_length=255, verbose_name="Размер Футболок")
+    brand_name = models.CharField(max_length=255, verbose_name="Брендовое имя Футболок")
+    sex = models.CharField(max_length=255, verbose_name="Пол")
+    season = models.CharField(max_length=255, verbose_name="Футболки для Сезона")
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+class Hoodie(Product):
+    size = models.CharField(max_length=255, verbose_name="Размер Худи")
+    brand_name = models.CharField(max_length=255, verbose_name="Брендовое имя Худи")
+    sex = models.CharField(max_length=255, verbose_name="Пол")
+    season = models.CharField(max_length=255, verbose_name="Худи для Сезона")
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
 class CartProduct(models.Model):
 
     user = models.ForeignKey('Customer', verbose_name='Покупатель', on_delete=models.CASCADE)

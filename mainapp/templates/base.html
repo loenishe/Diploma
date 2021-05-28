@@ -23,17 +23,33 @@
       padding-top: 56px;
     }
 </style>
-<body>
+<body style="min-height: 100vh; ">
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'base' %}">Django 3 | E-commerce</a>
+      <a class="navbar-brand" href="{% url 'base' %}">Daily | SHOP</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
+          {% if not user.is_authenticated %}
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/accounts/login">Войти</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/accounts/signup/">Регистрация</a>
+        </li>
+          {%endif%}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Здраствуй {{user.username}}</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/accounts/logout/">Выход</a>
+        </li>
+          {%endif%}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'cart' %}">Корзина <span class="badge badge-pill badge-danger">{{ cart.products.count }}</span></a>
           </li>
@@ -77,13 +93,13 @@
           </ol>
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-              <img class="d-block img-fluid" src="{% static '/first_slider.jpg' %}" alt="First slide">
+              <img class="d-block img-fluid" src="https://static.highsnobiety.com/thumbor/rN54zH81fQXzu3R-WH2Cm9kgfAA=/1200x800/static.highsnobiety.com/wp-content/uploads/2019/08/05125048/serbian-streetwear-scene-main2.jpg" alt="First slide">
             </div>
             <div class="carousel-item">
-              <img class="d-block img-fluid" src="{% static '/second_slider.jpg' %}" alt="Second slide">
+              <img class="d-block img-fluid" src="https://static.highsnobiety.com/thumbor/0m-7_YwRRNHlYpS6Y9lmLr7mVrc=/1200x800/static.highsnobiety.com/wp-content/uploads/2019/07/01145922/serbian-streetwear-scene-08.jpg" alt="Second slide">
             </div>
             <div class="carousel-item">
-              <img class="d-block img-fluid" src="{% static '/third_slider.jpg' %}" alt="Third slide">
+              <img class="d-block img-fluid" src="https://static.highsnobiety.com/thumbor/Ta8QhApZ0vu2iW_FOuMA64FPgZ4=/1200x800/static.highsnobiety.com/wp-content/uploads/2019/07/01145933/serbian-streetwear-scene-09.jpg" alt="Third slide">
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -105,7 +121,7 @@
                 <h4 class="card-title">
                   <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
                 </h4>
-                <h5>{{ product.price }} руб.</h5>
+                <h5>{{ product.price }} тг.</h5>
                 <a href="{% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug %}">
                   <button class="btn btn-danger">Добавить в корзину</button>
                 </a>
@@ -126,12 +142,18 @@
   <!-- /.container -->
 
   <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-    </div>
-    <!-- /.container -->
-  </footer>
+  <footer class="py-5 bg-dark navbar-fixed-bottom row-fluid">
+    <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+
+ </footer>
+
+
+
+
+
+
+
+
 
   <!-- Bootstrap core JavaScript -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
